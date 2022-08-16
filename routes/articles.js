@@ -1,10 +1,12 @@
 const express = require('express')
+const article = require('./../models/article')
 const  Article = require('./../models/article')
 const router = express.Router()
 
 router.get('/new', (req, res)=>{
     res.render('articles/new', { article: new Article() })
 })
+
 
 router.get('/edit/:id', async (req, res) => {
     const article = await Article.findById(req.params.id)
@@ -21,6 +23,16 @@ router.post('/', async (req,res, next)=>{
  req.article = new Article()
  next()
 },saveArticleAndRedirect('new'))
+
+// Trying to get information from my form created in my show.ejs file here
+router.post('/:slug', async (req,res)=>{
+        try{
+            await Article.create({comments: req.body.commentary})
+            res.redirect(`/articles/${article.slug}`)
+        }catch(err){
+            console.log(err)
+        }
+})
 
 router.put('/:id', async (req,res, next)=>{
     req.article = await Article.findById(req.params.id)

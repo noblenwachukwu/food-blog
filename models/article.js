@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const marked = require('marked')
+const {marked} = require ('marked') 
 const slugify = require('slugify')
 const createDomPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
@@ -29,6 +29,10 @@ const articleSchema = new mongoose.Schema({
     sanitizedHtml: {
         type: String,
         required: true
+    },
+    // added a comments object for my to my schema to save in the database.
+    comments:{ 
+        type: String
     }
 })
 
