@@ -19,13 +19,10 @@ router.get('/:slug', async (req,res)=> {
 res.render('articles/show', {article: article })
 })
 
-router.post('/', async (req,res, next)=>{
- req.article = new Article()
- next()
-},saveArticleAndRedirect('new'))
 
 // Trying to get information from my form created in my show.ejs file here
-router.post('/:slug', async (req,res)=>{
+router.post('/:slug/comment', async (req,res)=>{
+    console.log('now im here in the slug comment')
         try{
             await Article.create({comments: req.body.commentary})
             res.redirect(`/articles/${article.slug}`)
@@ -44,6 +41,13 @@ router.delete('/:id' , async(req,res)=> {
 await Article.findByIdAndDelete(req.params.id)
 res.redirect('/')
 })
+
+router.post('/', async (req,res, next)=>{
+    console.log('im here')
+ req.article = new Article()
+ next()
+},saveArticleAndRedirect('new'))
+
 
 function saveArticleAndRedirect(path){
     return async (req,res) => {
