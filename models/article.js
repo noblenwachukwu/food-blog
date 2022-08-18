@@ -30,7 +30,6 @@ const articleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // added a comments object for my to my schema to save in the database.
     comments:{ 
         type: String
     }

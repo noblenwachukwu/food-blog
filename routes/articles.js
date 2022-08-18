@@ -1,5 +1,4 @@
 const express = require('express')
-const article = require('./../models/article')
 const  Article = require('./../models/article')
 const router = express.Router()
 
@@ -20,16 +19,19 @@ res.render('articles/show', {article: article })
 })
 
 
-// Trying to get information from my form created in my show.ejs file here
+
 router.post('/:slug/comment', async (req,res)=>{
     console.log('now im here in the slug comment')
-        try{
-            await Article.create({comments: req.body.commentary})
-            res.redirect(`/articles/${article.slug}`)
-        }catch(err){
-            console.log(err)
-        }
+    try{
+        const article = Article.find({ slug: req.params.slug })
+      
+        await article.updateOne({ comments: req.body.commentary})
+        res.redirect(`/articles/${article.slug}`)
+    } catch(err){
+        console.log(err)
+    }
 })
+
 
 router.put('/:id', async (req,res, next)=>{
     req.article = await Article.findById(req.params.id)

@@ -9,7 +9,7 @@
 </head>
 <body>
    <div class="container">
-    <h1 class="mb-1"><%= article.title %></h1>
+    <h1 class="mb-1"><%=article.title %></h1>
     <div class="text-muted mb-4">
         <%= article.createdAt.toLocaleDateString() %>
     </div>
@@ -20,13 +20,13 @@
         <%- article.sanitizedHtml %> 
     </div>
     <div>
-        <!-- created a form that takes in the comments sumbitted on the page -->
-        <form action="/articles/<%= article.id %>/comment" method="POST">
+        
+        <form action="/articles/<%= article.slug %>/comment" method="POST">
             <input type="text" placeholder="Comment..." name="commentary">
             <input type="submit" value="Comment">
         </form>
     </div>
-    <div><%= article.comments %></div>
+    <div><%=article.comments %></div>
     
    </div>
 </body>
