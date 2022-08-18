@@ -9,15 +9,24 @@
 </head>
 <body>
    <div class="container">
-    <h1 class="mb-1"><%= article.title %></h1>
-    <div class="text-muted mb-2">
+    <h1 class="mb-1"><%=article.title %></h1>
+    <div class="text-muted mb-4">
         <%= article.createdAt.toLocaleDateString() %>
     </div>
     <a href="/" class="btn btn-secondary">All Articles</a>
     <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-    <div>
+    <div class="card mb-4">
+        <h2>Full Article</h2>
         <%- article.sanitizedHtml %> 
     </div>
+    <div>
+        
+        <form action="/articles/<%= article.slug %>/comment" method="POST">
+            <input type="text" placeholder="Comment..." name="commentary">
+            <input type="submit" value="Comment">
+        </form>
+    </div>
+    <div><%=article.comments %></div>
     
    </div>
 </body>

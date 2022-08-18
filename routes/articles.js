@@ -6,6 +6,7 @@ router.get('/new', (req, res)=>{
     res.render('articles/new', { article: new Article() })
 })
 
+
 router.get('/edit/:id', async (req, res) => {
     const article = await Article.findById(req.params.id)
     res.render('articles/edit', {article: article })
@@ -17,10 +18,20 @@ router.get('/:slug', async (req,res)=> {
 res.render('articles/show', {article: article })
 })
 
-router.post('/', async (req,res, next)=>{
- req.article = new Article()
- next()
-},saveArticleAndRedirect('new'))
+
+
+router.post('/:slug/comment', async (req,res)=>{
+    console.log('now im here in the slug comment')
+    try{
+        const article = Article.find({ slug: req.params.slug })
+      
+        await article.updateOne({ comments: req.body.commentary})
+        res.redirect(`/articles/${article.slug}`)
+    } catch(err){
+        console.log(err)
+    }
+})
+
 
 router.put('/:id', async (req,res, next)=>{
     req.article = await Article.findById(req.params.id)
@@ -32,6 +43,13 @@ router.delete('/:id' , async(req,res)=> {
 await Article.findByIdAndDelete(req.params.id)
 res.redirect('/')
 })
+
+router.post('/', async (req,res, next)=>{
+    console.log('im here')
+ req.article = new Article()
+ next()
+},saveArticleAndRedirect('new'))
+
 
 function saveArticleAndRedirect(path){
     return async (req,res) => {
